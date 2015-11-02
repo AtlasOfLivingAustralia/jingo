@@ -11,175 +11,188 @@ var passport = app.locals.passport;
 
 router.get("/login", _getLogin);
 router.get("/logout", _getLogout);
-router.post("/login", passport.authenticate('local', { successRedirect: '/auth/done', failureRedirect: '/login', failureFlash: true }));
+router.post("/login", passport.authenticate('local', {
+    successRedirect: '/auth/done',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
 router.get("/auth/done", _getAuthDone);
 
 router.get("/auth/google", passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/userinfo.email'] }
+        scope: ['https://www.googleapis.com/auth/userinfo.email']
+    }
 ));
 router.get("/oauth2callback", passport.authenticate('google', {
-  successRedirect: '/auth/done',
-  failureRedirect: '/login'
+    successRedirect: '/auth/done',
+    failureRedirect: '/login'
 }));
 
 router.get("/auth/github", passport.authenticate('github'));
 router.get("/auth/github/callback", passport.authenticate('github', {
-  successRedirect: '/auth/done',
-  failureRedirect: '/login'
+    successRedirect: '/auth/done',
+    failureRedirect: '/login'
 }));
 
 if (auth.google.enabled) {
-  passport.use(new passportGoogle.OAuth2Strategy({
-      clientID: auth.google.clientId,
-      clientSecret: auth.google.clientSecret,
-      // I will leave the horrible name as the default to make the painful creation
-      // of the client id/secret simpler
-      callbackURL: app.locals.baseUrl + '/oauth2callback'
-    },
+    passport.use(new passportGoogle.OAuth2Strategy({
+            clientID: auth.google.clientId,
+            clientSecret: auth.google.clientSecret,
+            // I will leave the horrible name as the default to make the painful creation
+            // of the client id/secret simpler
+            callbackURL: app.locals.baseUrl + '/oauth2callback'
+        },
 
-    function(accessToken, refreshToken, profile, done) {
-      usedAuthentication("google");
-      done(null, profile);
-    }
-  ));
+        function (accessToken, refreshToken, profile, done) {
+            usedAuthentication("google");
+            done(null, profile);
+        }
+    ));
 }
 
 if (auth.github.enabled) {
 
-  // Register a new Application with Github https://github.com/settings/applications/new
-  // Authorization callback URL /auth/github/callback
-  passport.use(new passportGithub({
-      clientID: auth.github.clientId,
-      clientSecret: auth.github.clientSecret,
-      callbackURL: auth.github.callbackUrl
-    },
-    function(accessToken, refreshToken, profile, done) {
-      usedAuthentication("github");
-      done(null, profile);
-    }
-  ));
+    // Register a new Application with Github https://github.com/settings/applications/new
+    // Authorization callback URL /auth/github/callback
+    passport.use(new passportGithub({
+            clientID: auth.github.clientId,
+            clientSecret: auth.github.clientSecret,
+            callbackURL: auth.github.callbackUrl
+        },
+        function (accessToken, refreshToken, profile, done) {
+            usedAuthentication("github");
+            done(null, profile);
+        }
+    ));
 }
 
 if (auth.alone.enabled) {
 
-  passport.use(new passportLocal.Strategy(
+    passport.use(new passportLocal.Strategy(
+        function (username, password, done) {
 
-    function(username, password, done) {
+            var user = {
+                displayName: auth.alone.username,
+                email: auth.alone.email || ""
+            };
 
-      var user = {
-        displayName: auth.alone.username,
-        email: auth.alone.email || ""
-      };
+            if (username.toLowerCase() != auth.alone.username.toLowerCase() || tools.hashify(password) != auth.alone.passwordHash) {
+                return done(null, false, {message: 'Incorrect username or password'});
+            }
 
-      if (username.toLowerCase() != auth.alone.username.toLowerCase() || tools.hashify(password) != auth.alone.passwordHash) {
-        return done(null, false, { message: 'Incorrect username or password' });
-      }
+            usedAuthentication("alone");
 
-      usedAuthentication("alone");
-
-      return done(null, user);
-    }
-  ));
+            return done(null, user);
+        }
+    ));
 }
 
 if (auth.local.enabled) {
 
-  passport.use(new passportLocal.Strategy(
+    passport.use(new passportLocal.Strategy(
+        function (username, password, done) {
 
-    function(username, password, done) {
+            var wantedUsername = username.toLowerCase();
+            var wantedPasswordHash = tools.hashify(password);
 
-      var wantedUsername = username.toLowerCase();
-      var wantedPasswordHash = tools.hashify(password);
+            var foundUser = _.find(auth.local.accounts, function (account) {
+                return account.username.toLowerCase() === wantedUsername &&
+                    account.passwordHash === wantedPasswordHash;
+            });
 
-      var foundUser = _.find(auth.local.accounts, function (account) {
-          return account.username.toLowerCase() === wantedUsername &&
-            account.passwordHash === wantedPasswordHash;
-      });
+            if (!foundUser) {
+                return done(null, false, {message: 'Incorrect username or password'});
+            }
 
-      if (!foundUser) {
-        return done(null, false, { message: 'Incorrect username or password' });
-      }
+            usedAuthentication("local");
 
-      usedAuthentication("local");
-
-      return done(null, {
-        displayName: foundUser.username,
-        email: foundUser.email || ""
-      });
-    }
-  ));
+            return done(null, {
+                displayName: foundUser.username,
+                email: foundUser.email || ""
+            });
+        }
+    ));
 }
 
 function usedAuthentication(name) {
-  for (var a in auth) {
-    auth[a].used = (a == name);
-  }
+    for (var a in auth) {
+        auth[a].used = (a == name);
+    }
 }
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
+passport.serializeUser(function (user, done) {
+    done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
 
-  if (user.emails && user.emails.length > 0) { // Google
-    user.email = user.emails[0].value;
-    delete user.emails;
-  }
+    if (user.emails && user.emails.length > 0) { // Google
+        user.email = user.emails[0].value;
+        delete user.emails;
+    }
 
-  if (!user.displayName && user.username) {
-    user.displayName = user.username;
-  }
+    if (!user.displayName && user.username) {
+        user.displayName = user.username;
+    }
 
-  if (!user.email) {
-    user.email = 'jingouser';
-  }
+    if (!user.email) {
+        user.email = 'jingouser';
+    }
 
-  user.asGitAuthor = user.displayName + " <" + user.email + ">";
-  done(undefined, user);
+    user.asGitAuthor = user.displayName + " <" + user.email + ">";
+    done(undefined, user);
 });
 
 function _getLogout(req, res) {
-  req.logout();
-  req.session = null;
-  res.redirect('/');
+    req.logout();
+    req.session = null;
+    res.redirect('/');
 }
 
 function _getAuthDone(req, res) {
 
-  if (!res.locals.user) {
-    res.redirect("/");
-    return;
-  }
+    console.log("### Start auth info dump ###");
+    console.log('auth.github.used = ' + auth.github.used);
+    _.forEach(res.locals, function(value, key){
+        console.log('res.local.' + key + ' = ' + value);
+    });
+    _.forEach(req.user, function(value, key){
+        console.log('req.user.' + key + ' = ' + value);
+    });
 
-  if (!auth.alone.used &&
-      !auth.local.used &&
-      !tools.isAuthorized(res.locals.user.email, app.locals.config.get("authorization").validMatches)) {
-    req.logout();
-    req.session = null;
-    res.statusCode = 403;
-    res.end('<h1>Forbidden</h1>');
-  } else {
-    var dst = req.session.destination || "/";
-    delete req.session.destination;
-    res.redirect(dst);
-  }
+    console.log("### Finish auth info dump ###");
+
+
+    if (!res.locals.user) {
+        res.redirect("/");
+        return;
+    }
+
+    if (!auth.alone.used && !auth.local.used && !tools.isAuthorized(res.locals.user.email, app.locals.config.get("authorization").validMatches)) {
+        req.logout();
+        req.session = null;
+        res.statusCode = 403;
+        res.end('<h1>Forbidden</h1>');
+    } else {
+        var dst = req.session.destination || "/";
+        delete req.session.destination;
+        res.redirect(dst);
+    }
 }
 
 function _getLogin(req, res) {
 
-  req.session.destination = req.query.destination;
+    req.session.destination = req.query.destination;
 
-  if (req.session.destination == '/login') {
-    req.session.destination = '/';
-  }
+    if (req.session.destination == '/login') {
+        req.session.destination = '/';
+    }
 
-  res.locals.errors = req.flash();
+    res.locals.errors = req.flash();
 
-  res.render('login', {
-    title: app.locals.config.get("application").title,
-    auth: auth
-  });
+    res.render('login', {
+        title: app.locals.config.get("application").title,
+        auth: auth
+    });
 }
 
 module.exports = router;
