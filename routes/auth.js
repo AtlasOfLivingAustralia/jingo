@@ -94,7 +94,7 @@ if (auth.github.enabled) {
             clientID: auth.github.clientId,
             clientSecret: auth.github.clientSecret,
             callbackURL: auth.github.callbackUrl,
-            scope: 'read:org'
+            scope: 'read:org' // This is the minimum authorization scope required to read the authenticated user organisation. More info: https://developer.github.com/v3/orgs/#list-your-organizations
         },
         function (accessToken, refreshToken, profile, done) {
             if (accessToken && auth.github.organisation) {

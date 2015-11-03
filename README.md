@@ -77,7 +77,7 @@ Jingo needs a config file and to create a sample config file, just run `jingo -s
 
 This document contains also [the reference](#configuration-options-reference) for all the possible options.
 
-If you define a `remote` to push to, then Jingo will automatically issue a push to that remote every `pushInterval` seconds. To declare a `remote` for Jingo to use, you'll need to identify the name of your local remote. The following example shows how a local remote is typically defined: 
+If you define a `remote` to push to, then Jingo will automatically issue a push to that remote every `pushInterval` seconds. To declare a `remote` for Jingo to use, you'll need to identify the name of your local remote. The following example shows how a local remote is typically defined:
 
 `git remote add origin https://github.com/joeuser/jingorepo.git'`
 
@@ -264,6 +264,13 @@ Configuration options reference
 #### authentication.github.callbackUrl
 
   Values required for GitHub OAuth2 authentication. Refer to a previous section of this document on how to set them up.
+
+#### authentication.github.organisation (optional)
+  In the case you want to restrict wiki access to only members of a particular organisation, just add the organisation id to this configuration parameter. The organisation id is the one that appears in the URL. E.g:
+
+  ```
+    https://github.com/organizations/<organisation id>
+  ```
 
 #### authentication.local.enabled
 
