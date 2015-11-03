@@ -56,7 +56,7 @@ if (auth.google.enabled) {
  * Checks if the authenticated users is member of the authorized organisation defined in auth.github.organisation configuration parameter
  */
 auth.github.checkOrganisationMembershipAuthorization = function (profile, accessToken, done) {
-    console.log('** Checking authorization for user "' + profile.name + '" as member of organisation: "' + auth.github.organisation + '" **');
+    console.log('** Checking authorization for user "' + profile.username + '" as member of organisation: "' + auth.github.organisation + '" **');
     // Retrieve organisation
     var userOrganisations = [];
     var requestOptions = {
@@ -73,7 +73,6 @@ auth.github.checkOrganisationMembershipAuthorization = function (profile, access
         response.on('data', function (data) {
             var jsonObject = JSON.parse(data);
             _.forEach(jsonObject, function (organisation) {
-                console.log(organisation);
                 userOrganisations.push(organisation.login);
             });
 
@@ -98,9 +97,6 @@ if (auth.github.enabled) {
             scope: 'read:org'
         },
         function (accessToken, refreshToken, profile, done) {
-            _.forEach(profile, function(val, key){
-                console.log('profile.' + key + ' = ' + val);
-            });
             if (accessToken && auth.github.organisation) {
                 auth.github.checkOrganisationMembershipAuthorization(profile, accessToken, done);
             } else {
