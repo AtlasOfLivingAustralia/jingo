@@ -4,7 +4,8 @@ var router = require("express").Router(),
     passportLocal = require('passport-local'),
     passportGoogle = require('passport-google-oauth'),
     passportGithub = require('passport-github').Strategy,
-    tools = require("../lib/tools");
+    tools = require("../lib/tools"),
+    https = require('https');
 
 var auth = app.locals.config.get("authentication");
 var passport = app.locals.passport;
@@ -24,13 +25,15 @@ router.get("/auth/google", passport.authenticate('google', {
 ));
 router.get("/oauth2callback", passport.authenticate('google', {
     successRedirect: '/auth/done',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: true
 }));
 
 router.get("/auth/github", passport.authenticate('github'));
 router.get("/auth/github/callback", passport.authenticate('github', {
     successRedirect: '/auth/done',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: true // This allows for error messages to be displayed in the login screen
 }));
 
 if (auth.google.enabled) {
@@ -56,11 +59,47 @@ if (auth.github.enabled) {
     passport.use(new passportGithub({
             clientID: auth.github.clientId,
             clientSecret: auth.github.clientSecret,
-            callbackURL: auth.github.callbackUrl
+            callbackURL: auth.github.callbackUrl,
+            scope: 'read:org'
         },
         function (accessToken, refreshToken, profile, done) {
-            usedAuthentication("github");
-            done(null, profile);
+            _.forEach(profile, function(val, key){
+                console.log('profile.' + key + ' = ' + val);
+            });
+            if (accessToken && auth.github.organisation) {
+                console.log('** Checking authorization for user "' + profile.name + '" as member of organisation: "' + auth.github.organisation + '" **');
+                // Retrieve organisation
+                var userOrganisations = [];
+                var requestOptions = {
+                    host: 'api.github.com',
+                    path: '/user/orgs?access_token=' + accessToken,
+                    headers: {
+                        'Accept': '*/*',
+                        'Cache-Control': 'no-cache',
+                        'user-agent': 'node.js'
+                    }
+                };
+
+                https.get(requestOptions, function (response) {
+                    response.on('data', function (data) {
+                        var jsonObject = JSON.parse(data);
+                        _.forEach(jsonObject, function(organisation){
+                            console.log(organisation);
+                            userOrganisations.push(organisation.login);
+                        });
+
+                        if (_.contains(userOrganisations, auth.github.organisation)) {
+                            usedAuthentication("github");
+                            done(null, profile);
+                        } else {
+                            done(null, false, {message: 'User is not authorized. User is not a member of the "' + auth.github.organisation + '" organisation.'});
+                        }
+                    });
+                });
+            } else {
+                usedAuthentication("github");
+                done(null, profile);
+            }
         }
     ));
 }
@@ -150,17 +189,43 @@ function _getLogout(req, res) {
 
 function _getAuthDone(req, res) {
 
-    console.log("### Start auth info dump ###");
-    console.log('auth.github.used = ' + auth.github.used);
-    _.forEach(res.locals, function(value, key){
-        console.log('res.local.' + key + ' = ' + value);
-    });
-    _.forEach(req.user, function(value, key){
-        console.log('req.user.' + key + ' = ' + value);
-    });
-
-    console.log("### Finish auth info dump ###");
-
+    //console.log("### Start auth info dump ###");
+    //console.log('auth.github.used = ' + auth.github.used);
+    //
+    //var userOrgsURL ='/user/orgs?access_token=' + auth.github.accessToken;
+    //
+    //var requestOptions = {
+    //    host: 'api.github.com',
+    //    path: userOrgsURL,
+    //    headers: {
+    //        'Accept': '*/*',
+    //        'Cache-Control': 'no-cache',
+    //        'user-agent': 'node.js'
+    //    }
+    //};
+    //
+    //console.log('userOrgsURL = ' + userOrgsURL);
+    //try {
+    //    //https.request(requestOptions, function (response) {
+    //    https.get(requestOptions, function (response) {
+    //        console.log('Request performed with status code = ' + response.statusCode);
+    //        console.log("headers: ", response.headers);
+    //        response.on('data', function (data) {
+    //            var jsonObject = JSON.parse(data);
+    //            _.forEach(jsonObject, function(organisation){
+    //                console.log(organisation.login);
+    //            })
+    //        });
+    //    });
+    //
+    //    //_.forEach(request, function (value, key) {
+    //    //    console.log('request.' + key + ' = ' + value);
+    //    //});
+    //} catch(e) {
+    //    console.log(e);
+    //}
+    //
+    //console.log("### Finish auth info dump ###");
 
     if (!res.locals.user) {
         res.redirect("/");
