@@ -52,6 +52,41 @@ if (auth.google.enabled) {
     ));
 }
 
+/**
+ * Checks if the authenticated users is member of the authorized organisation defined in auth.github.organisation configuration parameter
+ */
+auth.github.checkOrganisationMembershipAuthorization = function (profile, accessToken, done) {
+    console.log('** Checking authorization for user "' + profile.name + '" as member of organisation: "' + auth.github.organisation + '" **');
+    // Retrieve organisation
+    var userOrganisations = [];
+    var requestOptions = {
+        host: 'api.github.com',
+        path: '/user/orgs?access_token=' + accessToken,
+        headers: {
+            'Accept': '*/*',
+            'Cache-Control': 'no-cache',
+            'user-agent': 'node.js'
+        }
+    };
+
+    https.get(requestOptions, function (response) {
+        response.on('data', function (data) {
+            var jsonObject = JSON.parse(data);
+            _.forEach(jsonObject, function (organisation) {
+                console.log(organisation);
+                userOrganisations.push(organisation.login);
+            });
+
+            if (_.contains(userOrganisations, auth.github.organisation)) {
+                usedAuthentication("github");
+                done(null, profile);
+            } else {
+                done(null, false, {message: 'User is not authorized. User is not a member of the "' + auth.github.organisation + '" organisation.'});
+            }
+        });
+    });
+}
+
 if (auth.github.enabled) {
 
     // Register a new Application with Github https://github.com/settings/applications/new
@@ -67,35 +102,7 @@ if (auth.github.enabled) {
                 console.log('profile.' + key + ' = ' + val);
             });
             if (accessToken && auth.github.organisation) {
-                console.log('** Checking authorization for user "' + profile.name + '" as member of organisation: "' + auth.github.organisation + '" **');
-                // Retrieve organisation
-                var userOrganisations = [];
-                var requestOptions = {
-                    host: 'api.github.com',
-                    path: '/user/orgs?access_token=' + accessToken,
-                    headers: {
-                        'Accept': '*/*',
-                        'Cache-Control': 'no-cache',
-                        'user-agent': 'node.js'
-                    }
-                };
-
-                https.get(requestOptions, function (response) {
-                    response.on('data', function (data) {
-                        var jsonObject = JSON.parse(data);
-                        _.forEach(jsonObject, function(organisation){
-                            console.log(organisation);
-                            userOrganisations.push(organisation.login);
-                        });
-
-                        if (_.contains(userOrganisations, auth.github.organisation)) {
-                            usedAuthentication("github");
-                            done(null, profile);
-                        } else {
-                            done(null, false, {message: 'User is not authorized. User is not a member of the "' + auth.github.organisation + '" organisation.'});
-                        }
-                    });
-                });
+                auth.github.checkOrganisationMembershipAuthorization(profile, accessToken, done);
             } else {
                 usedAuthentication("github");
                 done(null, profile);
@@ -188,44 +195,6 @@ function _getLogout(req, res) {
 }
 
 function _getAuthDone(req, res) {
-
-    //console.log("### Start auth info dump ###");
-    //console.log('auth.github.used = ' + auth.github.used);
-    //
-    //var userOrgsURL ='/user/orgs?access_token=' + auth.github.accessToken;
-    //
-    //var requestOptions = {
-    //    host: 'api.github.com',
-    //    path: userOrgsURL,
-    //    headers: {
-    //        'Accept': '*/*',
-    //        'Cache-Control': 'no-cache',
-    //        'user-agent': 'node.js'
-    //    }
-    //};
-    //
-    //console.log('userOrgsURL = ' + userOrgsURL);
-    //try {
-    //    //https.request(requestOptions, function (response) {
-    //    https.get(requestOptions, function (response) {
-    //        console.log('Request performed with status code = ' + response.statusCode);
-    //        console.log("headers: ", response.headers);
-    //        response.on('data', function (data) {
-    //            var jsonObject = JSON.parse(data);
-    //            _.forEach(jsonObject, function(organisation){
-    //                console.log(organisation.login);
-    //            })
-    //        });
-    //    });
-    //
-    //    //_.forEach(request, function (value, key) {
-    //    //    console.log('request.' + key + ' = ' + value);
-    //    //});
-    //} catch(e) {
-    //    console.log(e);
-    //}
-    //
-    //console.log("### Finish auth info dump ###");
 
     if (!res.locals.user) {
         res.redirect("/");
