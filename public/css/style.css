@@ -602,6 +602,22 @@ a.btn-auth:hover {
   opacity: .9;
 }
 
+/*** Start - Bootstrap-Markdwon customization ***/
+.md-editor.md-fullscreen-mode .md-header {
+  top: 3em;
+}
+
+.md-editor.md-fullscreen-mode .md-fullscreen-controls {
+  top: 3.8em;
+}
+
+.md-editor.md-fullscreen-mode .fa {
+  font-size: larger;
+  color: #333;
+}
+
+/*** End - Bootstrap-Markdwon customization ***/
+
 @media (min-width: 768px) {
   body {
     padding-top: 60px;

@@ -60,6 +60,8 @@ mixin featuresStylesheets()
     link(rel="stylesheet", type="text/css", href="/css/codemirror-ext.css")
     link(rel="stylesheet", type="text/css", href="/vendor/codemirror/codemirror.css")
     link(rel="stylesheet", type="text/css", href="/vendor/codemirror/fullscreen.css")
+  if hasFeature('bootstrapMarkdown')
+    link(rel="stylesheet", type="text/css", href="/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css")
 
 mixin featuresJavaScripts()
   if hasFeature('markitup')
@@ -68,7 +70,7 @@ mixin featuresJavaScripts()
     script(src="/vendor/markitup/sets/markdown/set.js")
     script(src="/vendor/widearea/widearea.min.js")
     script.
-     $('#editor').markItUp(markdownSettings);
+     cmarkItUp(markdownSettings);
      wideArea();
   if hasFeature('codemirror')
     script(src="/vendor/codemirror/codemirror.min.js")
@@ -85,6 +87,12 @@ mixin featuresJavaScripts()
         }
       });
       Jingo.toolbar();
+  if hasFeature('bootstrapMarkdown')
+    script(src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js")
+    script.
+      Jingo.bsmdInstance = $('#editor').markdown({
+        iconlibrary: 'fa'
+      });
 
 mixin warning()
   -var warning = locals.warning;
