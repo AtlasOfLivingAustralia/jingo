@@ -91,7 +91,13 @@ mixin featuresJavaScripts()
     script(src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js")
     script.
       Jingo.bsmdInstance = $('#editor').markdown({
-        iconlibrary: 'fa'
+        iconlibrary: 'fa',
+        onPreview: function (e) {
+          var content = e.getContent();
+          $.post("/misc/preview",{data: content}, function (data) {
+            $('.md-preview').html(data);
+          });
+        }
       });
 
 mixin warning()
