@@ -89,6 +89,7 @@ mixin featuresJavaScripts()
       Jingo.toolbar();
   if hasFeature('bootstrapMarkdown')
     script(src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js")
+    script(src="/vendor/jquery.hotkeys/jquery.hotkeys.js")
     script.
       Jingo.bsmdInstance = $('#editor').markdown({
         iconlibrary: 'fa',
