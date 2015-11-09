@@ -616,6 +616,10 @@ a.btn-auth:hover {
   color: #333;
 }
 
+.md-editor>textarea {
+  background-color: white;
+}
+
 /*** End - Bootstrap-Markdwon customization ***/
 
 @media (min-width: 768px) {

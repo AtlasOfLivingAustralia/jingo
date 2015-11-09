@@ -92,6 +92,20 @@ mixin featuresJavaScripts()
     script.
       Jingo.bsmdInstance = $('#editor').markdown({
         iconlibrary: 'fa',
+        additionalButtons: [
+          [{
+            name: "groupMisc",
+            data: [{
+              name: "markdownInfo",
+              toggle: true, // this param only take effect if you load bootstrap.js
+              title: "Markdown cheatsheet",
+              icon: "fa fa-lg fa-info-circle",
+              callback: function (e) {
+                Jingo.markdownSyntax();
+              }
+            }]
+          }]
+        ],
         onPreview: function (e) {
           var content = e.getContent();
           $.post("/misc/preview",{data: content}, function (data) {
