@@ -97,8 +97,9 @@ mixin featuresJavaScripts()
             name: "groupMisc",
             data: [{
               name: "markdownInfo",
-              toggle: true, // this param only take effect if you load bootstrap.js
+              toggle: false, // this param only take effect if you load bootstrap.js
               title: "Markdown cheatsheet",
+              hotkey: 'Ctrl+I',
               icon: "fa fa-lg fa-info-circle",
               callback: function (e) {
                 Jingo.markdownSyntax();
