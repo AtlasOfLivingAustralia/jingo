@@ -202,6 +202,33 @@
         $("#syntax-reference .modal-body").load("/misc/syntax-reference");
         cheatsheetShown = true;
       }
+    },
+
+    initBootstrapMarkdownEditor: function() {
+      Jingo.bsmdInstance = $('#editor').markdown({
+        iconlibrary: 'fa',
+        additionalButtons: [
+          [{
+            name: "groupMisc",
+            data: [{
+              name: "markdownInfo",
+              toggle: false, // this param only take effect if you load bootstrap.js
+              title: "Markdown cheatsheet",
+              hotkey: 'Ctrl+I',
+              icon: "fa fa-lg fa-info-circle",
+              callback: function (e) {
+                Jingo.markdownSyntax();
+              }
+            }]
+          }]
+        ],
+        onPreview: function (e) {
+          var content = e.getContent();
+          $.post("/misc/preview",{data: content}, function (data) {
+            $('.md-preview').html(data);
+          });
+        }
+      });
     }
   };
 
