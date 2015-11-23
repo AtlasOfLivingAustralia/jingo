@@ -1,0 +1,26 @@
+div(id="uploadStatus")
+
+form(id="uploadForm", action="/misc/uploadFile", method="post", enctype="multipart/form-data", class="form-horizontal")
+  div.form-group
+    label.control-label.col-md-3(for="file") Select File
+    div.col-md-9
+      input(type="file", name="file", id="file", data-filename-placement="inside")
+
+  div.form-group
+    label.control-label.col-md-3(for="message") Commit Message
+    div.col-md-9
+      textarea.form-control(rows="3", id="message", name="message", placeholder="File quick description")
+  div.form-group
+    div.col-md-offset-3.col-md-9
+      button.btn.btn-primary(type="submit", name="wiki_upload_submit", id="wiki_upload_submit")
+        i.fa.fa-upload &nbsp;Submit File
+
+script(src="/vendor/jquery.form/jquery.form.min.js")
+script(src="/vendor/bootstrap.file-input/bootstrap.file-input.js")
+script.
+  $(function() {
+    // Initialize input type file
+    $('input[type=file]').bootstrapFileInput();
+    // Initialize jQuery Form
+    $("#uploadForm").ajaxForm(function(response) { $('#uploadStatus').html(response); });
+  });

@@ -1,13 +1,15 @@
 var router = require("express").Router(),
-    renderer = require('../lib/renderer'),
-    fs = require("fs"),
-    models = require("../lib/models");
+  renderer = require('../lib/renderer'),
+  fs = require("fs"),
+  models = require("../lib/models"),
+  multer = require("multer");
 
 models.use(Git);
 
 router.get("/misc/syntax-reference", _getSyntaxReference);
-router.post("/misc/preview",         _postPreview);
-router.get("/misc/existence",        _getExistence);
+router.post("/misc/preview", _postPreview);
+router.get("/misc/existence", _getExistence);
+router.get("/misc/upload-form", _getUploadForm);
 
 function _getSyntaxReference(req, res) {
   res.render('syntax');
@@ -27,11 +29,11 @@ function _getExistence(req, res) {
   }
 
   var result = [],
-      page,
-      n = req.query.data.length;
+    page,
+    n = req.query.data.length;
 
-  req.query.data.forEach(function(pageName, idx) {
-    (function(name, index) {
+  req.query.data.forEach(function (pageName, idx) {
+    (function (name, index) {
       page = new models.Page(name);
       if (!fs.existsSync(page.pathname)) {
         result.push(name);
@@ -43,7 +45,11 @@ function _getExistence(req, res) {
   });
 }
 
-router.all('*', function(req, res) {
+function _getUploadForm(req, res) {
+  res.render('upload-form');
+}
+
+router.all('*', function (req, res) {
   res.locals.title = "404 - Not found";
   res.statusCode = 404;
   res.render('404.jade');

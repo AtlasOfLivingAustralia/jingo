@@ -158,6 +158,7 @@
 
     },
 
+    //TODO Deprecated
     preview: function() {
       $("#preview").modal({keyboard: true, show: true, backdrop: false});
       $.post("/misc/preview", {data: $("#editor").val()}, function(data) {
@@ -204,6 +205,11 @@
       }
     },
 
+    showUploadDialog: function() {
+      $("#file-upload-dialog").modal({keyboard: true, show: true, backdrop: false});
+      $("#file-upload-dialog .modal-body").load("/misc/upload-form");
+    },
+
     initBootstrapMarkdownEditor: function() {
       Jingo.bsmdInstance = $('#editor').markdown({
         iconlibrary: 'fa',
@@ -220,7 +226,20 @@
                 Jingo.markdownSyntax();
               }
             }]
-          }]
+          },
+            {
+              name: "groupLink",
+              data: [{
+                name: "fileUpload",
+                toggle: false, // this param only take effect if you load bootstrap.js
+                title: "Upload files",
+                hotkey: 'Ctrl+U',
+                icon: "fa fa-lg fa-upload",
+                callback: function (e) {
+                  Jingo.showUploadDialog();
+                }
+              }]
+            }]
         ],
         onPreview: function (e) {
           var content = e.getContent();

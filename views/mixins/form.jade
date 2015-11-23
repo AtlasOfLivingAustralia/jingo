@@ -52,10 +52,12 @@ mixin errors(err)
             b= v.msg || v
 
 mixin featuresStylesheets()
+  // TODO Deprecated
   if hasFeature('markitup')
     link(rel="stylesheet", type="text/css", href="/vendor/widearea/widearea.min.css")
     link(rel="stylesheet", type="text/css", href="/vendor/markitup/skins/simple/style.css")
     link(rel="stylesheet", type="text/css", href="/vendor/markitup/sets/markdown/style.css")
+  // TODO Deprecated
   if hasFeature('codemirror')
     link(rel="stylesheet", type="text/css", href="/css/codemirror-ext.css")
     link(rel="stylesheet", type="text/css", href="/vendor/codemirror/codemirror.css")
@@ -64,6 +66,7 @@ mixin featuresStylesheets()
     link(rel="stylesheet", type="text/css", href="/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css")
 
 mixin featuresJavaScripts()
+  // TODO Deprecated
   if hasFeature('markitup')
     script(src="/vendor/jquery-migrate-1.1.0.min.js")
     script(src="/vendor/markitup/jquery.markitup.js")
@@ -72,6 +75,7 @@ mixin featuresJavaScripts()
     script.
      cmarkItUp(markdownSettings);
      wideArea();
+  // TODO Deprecated
   if hasFeature('codemirror')
     script(src="/vendor/codemirror/codemirror.min.js")
     script.
