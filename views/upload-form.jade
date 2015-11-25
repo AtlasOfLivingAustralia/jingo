@@ -1,6 +1,9 @@
 div(id="uploadSection")
-  if message
+  if message && success
     div.alert.alert-success
+      !=message
+  else if message && !success
+    div.alert.alert-danger
       !=message
 
   form(id="uploadForm", action="/misc/upload-file", method="post", enctype="multipart/form-data", class="form-horizontal")
@@ -13,6 +16,15 @@ div(id="uploadSection")
       label.control-label.col-md-3(for="fileMessage") Commit Message
       div.col-md-9
         textarea.form-control(rows="3", id="fileMessage", name="fileMessage", placeholder="File quick description")
+
+    if overwriteConfirmation
+      div.form-group
+        div.col-md-offset-3.col-md-9
+          div.checkbox
+            label
+              input(type="checkbox", name="overwriteFlag", value="true")
+              | Overwrite existing file?
+
     div.form-group
       div.col-md-offset-3.col-md-9
         button.btn.btn-primary(type="submit", name="wiki_upload_submit", id="wiki_upload_submit")
