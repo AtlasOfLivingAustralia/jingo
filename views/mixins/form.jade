@@ -63,6 +63,8 @@ mixin featuresStylesheets()
     link(rel="stylesheet", type="text/css", href="/vendor/codemirror/codemirror.css")
     link(rel="stylesheet", type="text/css", href="/vendor/codemirror/fullscreen.css")
   if hasFeature('bootstrapMarkdown')
+    link(rel="stylesheet", type="text/css", href="/vendor/datatables/datatables.min.css")
+    link(rel="stylesheet", type="text/css", href="/vendor/datatables/DataTables-1.10.10/css/dataTables.bootstrap.min.css")
     link(rel="stylesheet", type="text/css", href="/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css")
 
 mixin featuresJavaScripts()
@@ -92,8 +94,11 @@ mixin featuresJavaScripts()
       });
       Jingo.toolbar();
   if hasFeature('bootstrapMarkdown')
+    script(src="/vendor/datatables/datatables.min.js")
+    script(src="/vendor/datatables/DataTables-1.10.10/js/dataTables.bootstrap.min.js")
     script(src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js")
     script(src="/vendor/jquery.hotkeys/jquery.hotkeys.js")
+    script(src="/vendor/zeroclipboard/ZeroClipboard.js")
     script.
       Jingo.initBootstrapMarkdownEditor();
 mixin warning()

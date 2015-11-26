@@ -21,6 +21,10 @@ a.logout i {
   padding-right: 0;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 p.user {
   color: white;
   padding: 8px 10px 0;

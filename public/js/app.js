@@ -210,24 +210,29 @@
       $("#file-upload-dialog .modal-body").load("/misc/upload-form");
     },
 
+    showFileBrowserDialog: function() {
+      $("#file-browser-dialog").modal({keyboard: true, show: true, backdrop: false});
+      $("#file-browser-dialog .modal-body").load("/misc/file-browser");
+    },
+
     initBootstrapMarkdownEditor: function() {
       Jingo.bsmdInstance = $('#editor').markdown({
         iconlibrary: 'fa',
         additionalButtons: [
-          [{
-            name: "groupMisc",
-            data: [{
-              name: "markdownInfo",
-              toggle: false, // this param only take effect if you load bootstrap.js
-              title: "Markdown cheatsheet",
-              hotkey: 'Ctrl+I',
-              icon: "fa fa-lg fa-info-circle",
-              callback: function (e) {
-                Jingo.markdownSyntax();
-              }
-            }]
-          },
+          [
             {
+              name: "groupMisc",
+              data: [{
+                name: "markdownInfo",
+                toggle: false, // this param only take effect if you load bootstrap.js
+                title: "Markdown cheatsheet",
+                hotkey: 'Ctrl+I',
+                icon: "fa fa-lg fa-info-circle",
+                callback: function (e) {
+                  Jingo.markdownSyntax();
+                }
+              }]
+            }, {
               name: "groupLink",
               data: [{
                 name: "fileUpload",
@@ -237,6 +242,18 @@
                 icon: "fa fa-lg fa-upload",
                 callback: function (e) {
                   Jingo.showUploadDialog();
+                }
+              }]
+            }, {
+              name: "groupLink",
+              data: [{
+                name: "browseUploadedFiles",
+                toggle: false, // this param only take effect if you load bootstrap.js
+                title: "Browse uploaded files",
+                hotkey: 'Ctrl+E',
+                icon: "fa fa-lg fa-folder-open-o",
+                callback: function (e) {
+                  Jingo.showFileBrowserDialog();
                 }
               }]
             }]

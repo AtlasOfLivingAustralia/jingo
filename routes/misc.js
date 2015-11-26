@@ -4,7 +4,8 @@ var express = require("express"),
   renderer = require('../lib/renderer'),
   fs = require("fs"),
   models = require("../lib/models"),
-  multer = require("multer");
+  multer = require("multer"),
+  moment = require("moment");
 
 models.use(Git);
 
@@ -19,6 +20,7 @@ router.post("/misc/preview", _postPreview);
 router.get("/misc/existence", _getExistence);
 router.get("/misc/upload-form", _getUploadForm);
 router.post("/misc/upload-file", upload.single('file'), _postUploadFile);
+router.get("/misc/file-browser", _getFileBrowser);
 app.use('/assets', express.static(fileDestinationDir));
 
 function _getSyntaxReference(req, res) {
@@ -107,9 +109,20 @@ function _postUploadFile(req, res, next) {
       });
     });
   }
+}
 
-
-
+function _getFileBrowser(req, res) {
+  // Retrieve required metadata from all files in /assets folder
+  var filesMetadata = [];
+  fs.readdirSync(fileDestinationDir).forEach(function(file) {
+    var stats = fs.statSync(fileDestinationDir + '/' + file);
+    filesMetadata.push({
+      fileName: file,
+      dateFormatted: moment(stats.ctime).format('DD/MM/YYYY'),
+      url: fileDestinationSubdir + '/' + file
+    })
+  });
+  res.render('file-browser', {filesMetadata: filesMetadata});
 }
 
 router.all('*', function (req, res) {
