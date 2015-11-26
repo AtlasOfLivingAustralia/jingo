@@ -1,0 +1,43 @@
+div#copyMsg.alert.alert-success(style="display:none;position:absolute; margin-top: 10%;margin-left: 25%; z-index: 100;")
+  //button(type="button", class="close", data-dismiss="alert",aria-label="Close") &times
+  | URL reference copied to clipboard
+
+table#fileTable.table.table-striped.table-bordered.table-hover
+  thead
+    tr
+      th File Name
+      th Date
+      th
+  tbody
+    each file in filesMetadata
+      tr.cursor-pointer
+        td= file.fileName
+        td= file.dateFormatted
+        td.text-center
+          i.fa.fa-clipboard.copy-url(data-clipboard-text="#{file.url}", title="Copy reference to clipboard")
+
+script.
+  $(function () {
+    $('#fileTable').DataTable({
+      "order": [[1, "desc"]],
+      "columnDefs": [
+        {"orderable": false, "targets": 2}
+      ]
+    });
+
+    var client = new ZeroClipboard(document.getElementsByClassName("copy-url"));
+
+    client.on("ready", function (readyEvent) {
+      // alert( "ZeroClipboard SWF is ready!" );
+
+      client.on("aftercopy", function (event) {
+        // `this` === `client`
+        // `event.target` === the element that was clicked
+        $('#copyMsg').show();
+        $('#copyMsg').css('opacity', 1);
+        window.setTimeout(function () {
+          $("#copyMsg").fadeTo(300, 0).slideUp(300);
+        }, 500);
+      });
+    });
+  });
