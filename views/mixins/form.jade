@@ -65,7 +65,7 @@ mixin featuresStylesheets()
   if hasFeature('bootstrapMarkdown')
     link(rel="stylesheet", type="text/css", href="/vendor/datatables/datatables.min.css")
     link(rel="stylesheet", type="text/css", href="/vendor/datatables/DataTables-1.10.10/css/dataTables.bootstrap.min.css")
-    link(rel="stylesheet", type="text/css", href="/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css")
+    link(rel="stylesheet", type="text/css", href="/vendor/simplemde/simplemde.min.css")
 
 mixin featuresJavaScripts()
   // TODO Deprecated
@@ -96,11 +96,11 @@ mixin featuresJavaScripts()
   if hasFeature('bootstrapMarkdown')
     script(src="/vendor/datatables/datatables.min.js")
     script(src="/vendor/datatables/DataTables-1.10.10/js/dataTables.bootstrap.min.js")
-    script(src="/vendor/bootstrap-markdown/js/bootstrap-markdown.js")
+    script(src="/vendor/simplemde/simplemde.min.js")
     script(src="/vendor/jquery.hotkeys/jquery.hotkeys.js")
     script(src="/vendor/zeroclipboard/ZeroClipboard.js")
     script.
-      Jingo.initBootstrapMarkdownEditor();
+      Jingo.initSimplemde();
 mixin warning()
   -var warning = locals.warning;
   - if (typeof(warning) != 'undefined')

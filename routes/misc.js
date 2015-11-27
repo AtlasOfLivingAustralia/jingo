@@ -28,9 +28,7 @@ function _getSyntaxReference(req, res) {
 }
 
 function _postPreview(req, res) {
-  res.render('preview', {
-    content: renderer.render(req.body.data)
-  });
+  res.send(renderer.render(req.body.data));
 }
 
 function _getExistence(req, res) {

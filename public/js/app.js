@@ -215,55 +215,38 @@
       $("#file-browser-dialog .modal-body").load("/misc/file-browser");
     },
 
-    initBootstrapMarkdownEditor: function() {
-      Jingo.bsmdInstance = $('#editor').markdown({
-        iconlibrary: 'fa',
-        additionalButtons: [
-          [
-            {
-              name: "groupMisc",
-              data: [{
-                name: "markdownInfo",
-                toggle: false, // this param only take effect if you load bootstrap.js
-                title: "Markdown cheatsheet",
-                hotkey: 'Ctrl+I',
-                icon: "fa fa-lg fa-info-circle",
-                callback: function (e) {
-                  Jingo.markdownSyntax();
-                }
-              }]
-            }, {
-              name: "groupLink",
-              data: [{
-                name: "fileUpload",
-                toggle: false, // this param only take effect if you load bootstrap.js
-                title: "Upload files",
-                hotkey: 'Ctrl+U',
-                icon: "fa fa-lg fa-upload",
-                callback: function (e) {
-                  Jingo.showUploadDialog();
-                }
-              }]
-            }, {
-              name: "groupLink",
-              data: [{
-                name: "browseUploadedFiles",
-                toggle: false, // this param only take effect if you load bootstrap.js
-                title: "Browse uploaded files",
-                hotkey: 'Ctrl+E',
-                icon: "fa fa-lg fa-folder-open-o",
-                callback: function (e) {
-                  Jingo.showFileBrowserDialog();
-                }
-              }]
-            }]
-        ],
-        onPreview: function (e) {
-          var content = e.getContent();
-          $.post("/misc/preview",{data: content}, function (data) {
-            $('.md-preview').html(data);
+    initSimplemde: function() {
+      Jingo.simplemde = new SimpleMDE({
+        element: $('#editor')[0],
+        previewRender: function(plainText, preview) {
+          $.post("/misc/preview",{data: plainText}, function (html) {
+            preview.innerHTML = html;
           });
-        }
+        },
+        toolbar: [
+          "bold", "italic", "strikethrough", "heading",
+          "|", "unordered-list", "ordered-list", "code", "horizontal-rule", "quote",
+          "|", "link", "image",
+          {
+            name: "file-upload",
+            action: Jingo.showUploadDialog,
+            className: "fa fa-upload",
+            title: "File upload"
+          },
+          {
+            name: "file-browser",
+            action: Jingo.showFileBrowserDialog,
+            className: "fa fa-folder-open-o",
+            title: "Browse uploaded files"
+          },
+          "|", "preview", "side-by-side", "fullscreen",
+          {
+            name: "markdown-info",
+            action: Jingo.markdownSyntax,
+            className: "fa fa-info-circle",
+            title: "Markdown cheatsheet"
+          }
+        ]
       });
     }
   };
