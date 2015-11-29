@@ -665,9 +665,30 @@ a.btn-auth:hover {
   margin-top: 20px;
 }
 
+.show .title {
+  margin-left: 25px;
+}
+
+.show #content {
+  padding-right: 0px;
+}
+
 #toc {
-  margin-top: 20px;
   margin-left: 0;
+  width: 18.2%;
+}
+
+.tocify-item.active {
+  font-weight: bold;
+  background-color: #337ab7;
+}
+
+.tocify-item.active a {
+  color: white;
+}
+
+.tocify-item.active a:hover {
+  color: inherit;
 }
 
 /*** Start - Bootstrap-Markdwon customization ***/

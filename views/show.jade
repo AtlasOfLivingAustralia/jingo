@@ -13,13 +13,13 @@ block content
     .col-md-12.notifications
       mixin notice()
       mixin warning()
-      h1
-        !=page.title
     .col-md-9
+      h1.title
+        !=page.title
       #content.show
         !=content
     .col-md-3.toc-container
-        #toc
+      #toc
 
   p.footer Updated by&nbsp;
     if page.metadata.email
@@ -37,6 +37,7 @@ block scripts
       $("#toc").tocify({
         context: '#content',
         selectors: 'h2,h3',
-        showAndHide: false
+        showAndHide: false,
+        extendPage: false
       });
     });
