@@ -656,6 +656,20 @@ a.btn-auth:hover {
 
 /*** End - SimpleMDE customization ***/
 
+.show .notifications {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.show .notifications h1 {
+  margin-top: 20px;
+}
+
+#toc {
+  margin-top: 20px;
+  margin-left: 0;
+}
+
 /*** Start - Bootstrap-Markdwon customization ***/
 .md-editor.md-fullscreen-mode .md-header {
   top: 3em;
@@ -686,7 +700,7 @@ a.btn-auth:hover {
   }
 
   #content {
-    padding: 40px 25px;
+    padding: 20px 25px;
   }
 
   .navbar-form.search {

@@ -1,16 +1,25 @@
-extends layout
+extends layout-show
 
 include mixins/form
+
+block styles
+  link(rel="stylesheet", type="text/css", href="/vendor/jquery.tocify/css/jquery.tocify.css")
 
 block tools
   mixin tools('show', page.wikiname)
 
 block content
-
-  #content.show
-    mixin notice()
-    mixin warning()
-    !=content
+  .row.show
+    .col-md-12.notifications
+      mixin notice()
+      mixin warning()
+      h1
+        !=page.title
+    .col-md-9
+      #content.show
+        !=content
+    .col-md-3.toc-container
+        #toc
 
   p.footer Updated by&nbsp;
     if page.metadata.email
@@ -19,3 +28,15 @@ block content
     |,&nbsp;
     b(title="#{page.metadata.date}") #{page.metadata.relDate}&nbsp;
     | &ndash; #{page.metadata.hash}
+
+block scripts
+  script(src="/vendor/jquery.tocify/js/jquery-ui-1.9.1.custom.min.js")
+  script(src="/vendor/jquery.tocify/js/jquery.tocify.min.js")
+  script.
+    $(function() {
+      $("#toc").tocify({
+        context: '#content',
+        selectors: 'h2,h3',
+        showAndHide: false
+      });
+    });
