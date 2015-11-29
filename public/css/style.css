@@ -674,8 +674,8 @@ a.btn-auth:hover {
 }
 
 #toc {
-  margin-left: 0;
-  width: 18.2%;
+  margin-left: -15px;
+  width: 275px;
 }
 
 .tocify-item.active {
