@@ -36,6 +36,7 @@ p.user {
   background-color: white;
   box-shadow: 0 0 5px silver;
   z-index: 2;
+  margin-top: 10px;
 }
 
 #content {
@@ -735,7 +736,7 @@ a.btn-auth:hover {
   }
 
   .tools {
-    right: 280px;
+    right: 240px;
   }
 
   .tools-handle {
