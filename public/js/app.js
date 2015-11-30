@@ -50,7 +50,7 @@
         var $pah = $("<li class=\"tools-handle\">Tools</li>");
         var pahTo, bodyPadding = $('body').css('padding-top');
         $pah.on("mouseover", function() {
-          $tools.animate({"margin-top": bodyPadding == "40px" ? "0" : "-20"});
+          $tools.animate({"margin-top": bodyPadding == "40px" ? "0" : "-10"});
           $pah.slideUp();
         });
         $tools.on("mouseenter", function() {

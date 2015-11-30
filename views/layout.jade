@@ -22,7 +22,7 @@ html
         .navbar-header
           a(href="/").navbar-brand #{appTitle}
           if canSearch()
-            form(action="/search").navbar-form.search.navbar-left
+            form(action="/search").navbar-form.search.navbar-right
               .input-group.input-group-sm.search
                 input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
                 span.input-group-btn
@@ -43,10 +43,13 @@ html
       block tools
 
     .container
-
       .row
-        #main.hide-tools.col-md-offset-1.col-md-10
-          block content
+        if useShowLayout
+          #main.hide-tools.col-md-12
+            block content
+        else
+          #main.hide-tools.col-md-offset-1.col-md-10
+            block content
 
       if hasFooter()
         .row

@@ -89,7 +89,8 @@ function _getWikiPage(req, res) {
       res.render("show", {
         page: page,
         title: app.locals.config.get("application").title + " – " + page.title,
-        content: renderer.render(page.content)
+        content: renderer.render(page.content),
+        useShowLayout: true
       });
     }
     else {

@@ -237,10 +237,12 @@ hr {
 
 .navbar-right {
   float: right;
+  padding-top: 3px;
 }
 
 .navbar-form.search {
   display: none;
+  padding-top: 3px;
 }
 
 .navbar-header {
@@ -656,6 +658,8 @@ a.btn-auth:hover {
 
 /*** End - SimpleMDE customization ***/
 
+/*** Start - TOC with tocify customization ***/
+
 .show .notifications {
   margin-top: 20px;
   margin-bottom: 0;
@@ -690,6 +694,8 @@ a.btn-auth:hover {
 .tocify-item.active a:hover {
   color: inherit;
 }
+
+/*** End - TOC with tocify customization ***/
 
 /*** Start - Bootstrap-Markdwon customization ***/
 .md-editor.md-fullscreen-mode .md-header {
@@ -733,7 +739,7 @@ a.btn-auth:hover {
   }
 
   .tools-handle {
-    top: 41px;
+    top: 52px;
     left: 60%;
   }
 }
