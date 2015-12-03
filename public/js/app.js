@@ -218,11 +218,6 @@
     initSimplemde: function() {
       Jingo.simplemde = new SimpleMDE({
         element: $('#editor')[0],
-        previewRender: function(plainText, preview) {
-          $.post("/misc/preview",{data: plainText}, function (html) {
-            preview.innerHTML = html;
-          });
-        },
         toolbar: [
           "bold", "italic", "strikethrough", "heading",
           "|", "unordered-list", "ordered-list", "code", "horizontal-rule", "quote",
