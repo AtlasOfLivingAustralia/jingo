@@ -70,8 +70,12 @@ auth.github.checkOrganisationMembershipAuthorization = function (profile, access
   };
 
   https.get(requestOptions, function (response) {
+    var body = "";
     response.on('data', function (data) {
-      var jsonObject = JSON.parse(data);
+      body += data;
+    });
+    response.on('end', function() {
+      var jsonObject = JSON.parse(body);
       _.forEach(jsonObject, function (organisation) {
         userOrganisations.push(organisation.login);
       });
@@ -84,7 +88,7 @@ auth.github.checkOrganisationMembershipAuthorization = function (profile, access
       }
     });
   });
-}
+};
 
 if (auth.github.enabled) {
 
