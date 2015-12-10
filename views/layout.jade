@@ -20,24 +20,33 @@ html
     .navbar.navbar-inverse.navbar-fixed-top
       .container-fluid
         .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
           a(href="/").navbar-brand #{appTitle}
-          if canSearch()
-            form(action="/search").navbar-form.search.navbar-right
-              .input-group.input-group-sm.search
-                input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
-                span.input-group-btn
-                  button.btn.btn-primary(type="submit") Search
-          .navbar-right
-            if isAnonymous()
-              p.user You're not&nbsp;
-                a(id='login',href='/login?destination', title='Access login page') logged in
-            else
-              p.user
-                if user.email
-                  img(src=gravatar().url("#{user.email}", {s:24}))
-                b &nbsp;#{user.displayName}&nbsp;
-                a.logout(href='/logout', title='Become anonymous')
-                  i.icon.ion-power
+          .collapse.navbar-collapse
+            ul.nav.navbar-nav
+              !{navBar}
+
+            if canSearch()
+              form(action="/search").navbar-form.search.navbar-right
+                .input-group.input-group-sm.search
+                  input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
+                  span.input-group-btn
+                    button.btn.btn-primary(type="submit") Search
+              .navbar-right
+                if isAnonymous()
+                  p.user You're not&nbsp;
+                    a(id='login',href='/login?destination', title='Access login page') logged in
+                else
+                  p.user
+                    if user.email
+                      img(src=gravatar().url("#{user.email}", {s:24}))
+                    b &nbsp;#{user.displayName}&nbsp;
+                    a.logout(href='/logout', title='Become anonymous')
+                      i.icon.ion-power
 
     .tools
       block tools
