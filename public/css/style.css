@@ -50,6 +50,7 @@ p.user {
   display: block;
   max-width: 100%;
   height: auto;
+  padding: 10px;
 }
 
 #content.show li {
@@ -109,8 +110,8 @@ label {
 }
 
 p {
-  margin-bottom: 20px;
-  line-height: 1.92;
+  margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 hr {
@@ -129,7 +130,7 @@ dl.search-results dt {
 h2,
 h1 {
   font-family:"Ubuntu";
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
 }
 
 h1 {
@@ -737,7 +738,7 @@ a.btn-auth:hover {
   }
 
   #content {
-    padding: 10px 25px 20px;
+    padding: 0px 25px 20px;
   }
 
   .navbar-form.search {
