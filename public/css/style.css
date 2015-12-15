@@ -1,7 +1,8 @@
 body {
   padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
-  font-family: "Ubuntu";
+  font-family: "Roboto,Helvetica,"Helvetica Neue",Arial,sans-serif";
   background-image: url(/img/bodybg.png);
+  font-size: 15px;
 }
 
 a[href^="https://"],
@@ -127,13 +128,13 @@ dl.search-results dt {
 
 h2,
 h1 {
-  border-bottom: 1px solid #ddd;
-  font-family:"Ubuntu Condensed";
+  font-family:"Ubuntu";
   margin: 0 0 20px 0;
 }
 
 h1 {
   font-size: 32px;
+  border-bottom: 1px solid #ddd;
 }
 
 h2 {
@@ -235,6 +236,10 @@ hr {
 }
 
 /* Overrides Bootstrap */
+
+.navbar {
+  font-family: "Ubuntu";
+}
 
 .navbar-right {
   float: right;
@@ -732,7 +737,7 @@ a.btn-auth:hover {
   }
 
   #content {
-    padding: 20px 25px;
+    padding: 10px 25px 20px;
   }
 
   .navbar-form.search {
