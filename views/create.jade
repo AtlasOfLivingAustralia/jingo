@@ -22,11 +22,18 @@ block content
 
       mixin saveAndCancel()
 
+  //TODO Deprecated
   #preview(tabindex="-1",role="dialog",aria-hidden="true").modal
     mixin dialogBox("Page preview")
 
   #syntax-reference(tabindex="-1",role="dialog",aria-hidden="true").modal
     mixin dialogBox("Markdown cheatsheet")
+
+  #file-upload-dialog(tabindex="-1",role="dialog",aria-hidden="true").modal
+    mixin dialogBox("File Upload")
+
+  #file-browser-dialog(tabindex="-1",role="dialog",aria-hidden="true").modal
+    mixin dialogBox("Uploads Browser")
 
 block scripts
   mixin featuresJavaScripts()
