@@ -8,13 +8,13 @@ include mixins/links
       meta(name="generator", content="jingo #{jingoVersion}")
       meta(name="viewport", content="width=device-width, initial-scale=1")
       title= title
-      link(rel="stylesheet", href="/vendor/bootstrap/css/bootstrap.min.css")
-      link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Ubuntu")
-      link(rel="stylesheet", href="/css/ionicons.min.css")
-      link(rel="stylesheet", href="/vendor/font-awesome/css/font-awesome.min.css")
-      link(rel="stylesheet", href="/css/shCoreDefault.css")
+      +asset("/vendor/bootstrap/css/bootstrap.min.css")
+      +asset("/vendor/font-awesome/css/font-awesome.min.css")
+      link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Condensed")
+      +asset("/css/style.css")
+      +asset("/css/ionicons.min.css")
+      +asset("/css/shCoreDefault.css")
       block styles
-      link(rel="stylesheet", href="/css/style.css")
       if hasCustomStyle()
         style.
           !{_style}
@@ -28,13 +28,13 @@ include mixins/links
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a(href="/").navbar-brand #{appTitle}
+            +anchor("/", appTitle).navbar-brand
             .collapse.navbar-collapse
               ul.nav.navbar-nav
                 !{navBar}
 
               if canSearch()
-                form(action="/search").navbar-form.search.navbar-right
+                form(action="#{proxyPath}/search").navbar-form.search.navbar-right
                   .input-group.input-group-sm.search
                     input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
                     span.input-group-btn
@@ -42,13 +42,13 @@ include mixins/links
                 .navbar-right
                   if isAnonymous()
                     p.user You're not&nbsp;
-                      a(id='login',href='/login?destination', title='Access login page') logged in
+                      +anchor('/login?destination', 'logged in')#login(title='Access login page')
                   else
                     p.user
                       if user.email
                         img(src=gravatar().url("#{user.email}", {s:24}))
                       b &nbsp;#{user.displayName}&nbsp;
-                      a.logout(href='/logout', title='Become anonymous')
+                      anchor('/logout')(title='Become anonymous')
                         i.icon.ion-power
 
       .tools
@@ -72,11 +72,13 @@ include mixins/links
       script(src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js")
       script.
         window.jQuery || document.write("<sc" + "ript src='#{proxyPath}/vendor/jquery.min.js'></scr" + "ipt>");
-      script(src="/vendor/bootstrap/js/bootstrap.min.js")
-      script(src="/js/app.js")
+      +asset("/vendor/bootstrap/js/bootstrap.min.js")
+      +asset("/js/app.js")
       script.
-        Jingo.init();
+        Jingo.init("#{proxyPath}");
       block scripts
       if hasCustomScript()
         script.
           !{_script}
+- else
+  block content
