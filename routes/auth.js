@@ -181,7 +181,7 @@ passport.deserializeUser(function (user, done) {
   }
 
   if (!user.email) {
-    user.email = 'jingouser';
+    user.email = user.username;
   }
 
   user.asGitAuthor = user.displayName + " <" + user.email + ">";
