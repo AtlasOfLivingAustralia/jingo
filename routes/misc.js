@@ -51,7 +51,7 @@ function _getExistence(req, res) {
       if (index == (n - 1)) {
         res.send(JSON.stringify({data: result}));
       }
-    })(pageName, idx);
+    }(pageName, idx));
   });
 }
 
@@ -123,10 +123,10 @@ function _getFileBrowser(req, res) {
   res.render('file-browser', {filesMetadata: filesMetadata});
 }
 
-router.all('*', function (req, res) {
+router.all("*", function (req, res) {
   res.locals.title = "404 - Not found";
   res.statusCode = 404;
-  res.render('404.jade');
+  res.render("404.jade");
 });
 
 module.exports = router;
