@@ -171,7 +171,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (user, done) {
 
-  if (user.emails && user.emails.length > 0) { // Google
+  if (user.emails && user.emails.length > 0) { // Google nad Github
     user.email = user.emails[0].value;
     delete user.emails;
   }
@@ -181,7 +181,7 @@ passport.deserializeUser(function (user, done) {
   }
 
   if (!user.email) {
-    user.email = user.username;
+    user.email = 'jingouser';
   }
 
   user.asGitAuthor = user.displayName + " <" + user.email + ">";
