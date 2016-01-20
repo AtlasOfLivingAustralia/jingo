@@ -1,3 +1,48 @@
+Version 1.6.0, December 28th, 2015
+==================================
+
+- Ability to work behind a proxy directory #124 (@creynold, @claudioc)
+- Enables CORS for /wiki pages (poor man read only API to pages) (@kaiserfro, @claudioc)
+- Started the Github wiki with some "recipes" for common tasks and configurations
+- Better documentation for the configuration options
+- Adds a linter configuration (eslint) and fixes a lot of style issues
+- Adds the CONTRIBUTING file
+- Adds more tests
+- Fixes a TOC bug (@creynold)
+- Fixes #118
+- Fixes a crash on a certain git configuration
+
+Requires `npm install`
+
+Version 1.5.3, December 14th, 2015
+=================================
+
+- Adds the `redirectURL` to the configuration (#121)
+
+Version 1.5.2, December 14th, 2015
+=================================
+
+- Fixes an authentication bug on 1.5.1 (#120)
+
+Version 1.5.1, December 12th, 2015
+=================================
+
+DO NOT USE THIS VERSION
+
+Version 1.5.0, December 12th, 2015
+=================================
+
+- Adds the ability to revert to a specific revision from the history page (@brad7928)
+- Adds support for directives (see PR #115) (@creynold)
+- Adds support for Table of Contents (@creynold and @brad7928)
+- Adds a new `emptyEmailMatches` configuration parameter (see README)
+- Added the /etc configuration directory (for useful configurations we may need)
+- Fixes #110 (@brad7928)
+- Fixes #109
+- Fixes #10
+
+- Merged #115, #113, #110
+
 Version 1.4.1, October 17th, 2015
 =================================
 
