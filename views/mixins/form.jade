@@ -38,9 +38,9 @@ mixin tools(action, pageName)
 
 mixin saveAndCancel(saveText)
   .well
-    input(type='submit',value=saveText || 'Save').btn.btn-primary
+    input(type='submit',value=saveText || 'Save').btn.btn-primary.disable-dirty-check
     |&nbsp;
-    a(href="/").btn Cancel
+    a(href="/").btn.btn-default.disable-dirty-check Cancel
 
 mixin errors(err)
   -var errors = locals.errors;
