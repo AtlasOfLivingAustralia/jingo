@@ -21,7 +21,8 @@ script.
     $('#fileTable').DataTable({
       "order": [[1, "desc"]],
       "columnDefs": [
-        {"orderable": false, "targets": 2}
+        {"orderable": false, "targets": 2},
+        {"type": "date-uk", "targets": 1}
       ]
     });
 

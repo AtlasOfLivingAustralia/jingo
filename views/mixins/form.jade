@@ -3,7 +3,7 @@ mixin tools(action, pageName)
     ul
       if pageName != 'home'
         li
-          form(action="#{proxyPath}/pages/#{pageName}", method="post", style="display:inline")
+          form(action="/pages/#{pageName}", method="post", style="display:inline")
             input(type="hidden", name="_method", value="delete")
             input(type="submit", value="Delete this page").confirm-delete-page.btn.btn-default
 
@@ -97,6 +97,7 @@ mixin featuresJavaScripts()
     // TODO Use assets
     script(src="/vendor/datatables/datatables.min.js")
     script(src="/vendor/datatables/DataTables-1.10.10/js/dataTables.bootstrap.min.js")
+    script(src="/vendor/datatables/DataTables-1.10.10/plugins/sorting/date-uk.js")
     script(src="/vendor/simplemde/simplemde.min.js")
     script(src="/vendor/jquery.hotkeys/jquery.hotkeys.js")
     script(src="/vendor/zeroclipboard/ZeroClipboard.js")
