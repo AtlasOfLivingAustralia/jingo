@@ -267,7 +267,7 @@
         }
       };
 
-      $('input.disable-dirty-check').on('click', function() {
+      $('.disable-dirty-check').on('click', function() {
         $('#editor').removeClass('content-dirty');
       });
     }
