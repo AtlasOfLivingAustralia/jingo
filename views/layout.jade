@@ -11,10 +11,10 @@ include mixins/links
       +asset("/vendor/bootstrap/css/bootstrap.min.css")
       +asset("/vendor/font-awesome/css/font-awesome.min.css")
       link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Ubuntu|Ubuntu+Condensed")
-      +asset("/css/style.css")
       +asset("/css/ionicons.min.css")
       +asset("/css/shCoreDefault.css")
       block styles
+      +asset("/css/style.css")
       if hasCustomStyle()
         style.
           !{_style}
@@ -47,9 +47,9 @@ include mixins/links
                     p.user
                       if user.email
                         img(src=gravatar().url("#{user.email}", {s:24}))
-                      b &nbsp;#{user.displayName}&nbsp;
-                      anchor('/logout')(title='Become anonymous')
-                        i.icon.ion-power
+                      b &nbsp;#{user.displayName}&nbsp;&nbsp;
+                      +anchor.logout('/logout')(title='Become anonymous')
+                        i.fa.fa-power-off.fa-lg
 
       .tools
         block tools

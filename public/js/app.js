@@ -126,6 +126,7 @@
         else {
           window.sessionStorage.removeItem("jingo-page");
         }
+        Jingo.initUnsavedContentWarning();
       }
 
       if (/^\/wiki\//.test(window.location.pathname)) {
@@ -262,6 +263,32 @@
             title: "Markdown cheatsheet"
           }
         ]
+      });
+      Jingo.simplemde.codemirror.on("change", function(){
+        if(!$('#editor').hasClass('content-dirty')) {
+          $('#editor').addClass('content-dirty');
+        }
+      });
+    },
+
+    /**
+     * Prevents leaving the edit page with unsaved content
+     */
+    initUnsavedContentWarning: function() {
+      window.onbeforeunload = function() {
+        var dirty = false;
+        if ($('#editor').hasClass('content-dirty')) {
+          console.log('Unsaved changes detected.');
+          dirty = true;
+        }
+
+        if (dirty) {
+          return "You have unsaved changes. These changes will be lost if you navigate away from this page.\nAre you sure?";
+        }
+      };
+
+      $('.disable-dirty-check').on('click', function() {
+        $('#editor').removeClass('content-dirty');
       });
     }
   };

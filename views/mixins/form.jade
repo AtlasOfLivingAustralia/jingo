@@ -38,9 +38,9 @@ mixin tools(action, pageName)
 
 mixin saveAndCancel(saveText)
   .well
-    input(type='submit',value=saveText || 'Save').btn.btn-primary
+    input(type='submit',value=saveText || 'Save').btn.btn-primary.disable-dirty-check
     |&nbsp;
-    +anchor("/", "Cancel").btn
+    +anchor("/", "Cancel").btn.btn-default.disable-dirty-check
 
 mixin errors(err)
   -var errors = locals.errors;
@@ -94,7 +94,7 @@ mixin featuresJavaScripts()
       });
       Jingo.toolbar();
   if hasFeature('bootstrapMarkdown')
-    / TODO Use assets
+    // TODO Use assets
     script(src="/vendor/datatables/datatables.min.js")
     script(src="/vendor/datatables/DataTables-1.10.10/js/dataTables.bootstrap.min.js")
     script(src="/vendor/simplemde/simplemde.min.js")
