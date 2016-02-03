@@ -4,3 +4,4 @@ config.yml
 data/*
 *.iml
 .idea
+jingo.log
