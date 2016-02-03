@@ -243,6 +243,10 @@ Configuration options reference
 
   Enable [GFM line breaks](https://help.github.com/articles/github-flavored-markdown#newlines) (defaults to `true`).
 
+####authentication.loginPageMessage
+
+  This is an optional message to be displayed on the login page. It can contain HTML markup.
+
 ####authentication.staticWhitelist
 
   This is to enable jingo to serve any kind of static file (like images) from the repository. By default, Jingo will serve `*.md` files and `*.jpg, *.png, *.gif`. Provide the values as a comma separated list of regular expressions.
