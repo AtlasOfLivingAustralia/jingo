@@ -1,7 +1,6 @@
 extends layout
 
 include mixins/form
-include mixins/links
 
 block content
 
@@ -45,3 +44,4 @@ block content
             button.btn-primary.btn(type="submit") Login
             |&nbsp;or&nbsp;
             +anchor("/", 'Cancel')
+    p!= authentication.loginPageMessage
