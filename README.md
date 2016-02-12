@@ -337,6 +337,10 @@ Configuration options reference
 
   Please note that you cannot enable both editors at the same time.
 
+#### features.bigToolsButtons (boolean: false)
+
+  If true, this changes the UI for page tools (edit, create new page etc) from the default slide-in Tools palette to a layout with larger Bootstrap buttons positioned above the content area on each page.
+
 #### server.hostname
 
   This is the hostname used to build the URL for your wiki pages. The reason for these options to exist is due to the need for the OAuth2 authentication to work (it needs an endpoint to get back to)

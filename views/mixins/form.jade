@@ -1,40 +1,71 @@
 mixin tools(action, pageName)
   if action == 'edit'
-    ul
+    if hasFeature('bigToolsButtons')
       if pageName != 'home'
-        li
-          form(action="/pages/#{pageName}", method="post", style="display:inline")
-            input(type="hidden", name="_method", value="delete")
-            input(type="submit", value="Delete this page").confirm-delete-page.btn.btn-default
+        form(action="/pages/#{pageName}", method="post", style="display:inline")
+          input(type="hidden", name="_method", value="delete")
+          input(type="submit", value="Delete this page").confirm-delete-page.btn.btn-danger
+    else
+      ul
+        if pageName != 'home'
+          li
+            form(action="/pages/#{pageName}", method="post", style="display:inline")
+              input(type="hidden", name="_method", value="delete")
+              input(type="submit", value="Delete this page").confirm-delete-page.btn.btn-default
 
   if action == 'show'
-    ul
-      if !isAnonymous()
-        li
-          +anchor("/pages/new")(title="Create new page").btn.btn-sm.btn-default
-            i.icon.ion-plus-round
+    if hasFeature('bigToolsButtons')
       if !isAnonymous() && canEdit
-        li
-          +anchor("/pages/" + pageName + "/edit")(title="Edit this page").btn.btn-sm.btn-default
-            i.icon.ion-compose
-
-      li
-        +anchor("/wiki/" + pageName + "/history")(title="Page history").btn.btn-sm.btn-default
+        +anchor("/pages/" + pageName + "/edit")(role="button").btn.btn-primary
+          i.icon.ion-compose
+          span Edit this page
+        +anchor("/wiki/" + pageName + "/history")(role="button").btn.btn-default
           i.icon.ion-clock
-      li
-        +anchor("/wiki")(title="All pages").btn.btn-sm.btn-default
+          span Page history
+        +anchor("/wiki")(role="button").btn.btn-default
           i.icon.ion-grid
-
+          span All pages
+      if !isAnonymous()
+          +anchor("/pages/new")(role="button").btn.btn-default
+            i.icon.ion-plus-round
+            span New page
       if canSearch()
-        li
-          +anchor("/search")(title="Search through the pages").btn.btn-sm.btn-default
+          +anchor("/search")(role="button").btn.btn-default
             i.icon.ion-search
+            span Search
+    else
+      ul
+        if !isAnonymous()
+          li
+            +anchor("/pages/new")(title="Create new page").btn.btn-sm.btn-default
+              i.icon.ion-plus-round
+        if !isAnonymous() && canEdit
+          li
+            +anchor("/pages/" + pageName + "/edit")(title="Edit this page").btn.btn-sm.btn-default
+              i.icon.ion-compose
+
+        li
+          +anchor("/wiki/" + pageName + "/history")(title="Page history").btn.btn-sm.btn-default
+            i.icon.ion-clock
+        li
+          +anchor("/wiki")(title="All pages").btn.btn-sm.btn-default
+            i.icon.ion-grid
+
+        if canSearch()
+          li
+            +anchor("/search")(title="Search through the pages").btn.btn-sm.btn-default
+              i.icon.ion-search
 
   if action == 'history'
-    ul
-      li
-        +anchor("/wiki")(title="All pages").btn.btn-sm.btn-default
-          i.icon.ion-grid
+    if hasFeature('bigToolsButtons')
+      +anchor("/wiki")(role="button").btn.btn-default
+        i.icon.ion-grid
+        span All pages
+    else
+      ul
+        li
+          +anchor("/wiki")(title="All pages").btn.btn-sm.btn-default
+            i.icon.ion-grid
 
 mixin saveAndCancel(saveText)
   .well
