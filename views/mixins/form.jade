@@ -1,13 +1,13 @@
 mixin tools(action, pageName)
   if action == 'edit'
     if hasFeature('bigToolsButtons')
-      if pageName != 'home'
+      if pageName.toLowerCase() != 'home'
         form(action="/pages/#{pageName}", method="post", style="display:inline")
           input(type="hidden", name="_method", value="delete")
           input(type="submit", value="Delete this page").confirm-delete-page.btn.btn-danger
     else
       ul
-        if pageName != 'home'
+        if pageName.toLowerCase() != 'home'
           li
             form(action="/pages/#{pageName}", method="post", style="display:inline")
               input(type="hidden", name="_method", value="delete")
