@@ -51,8 +51,20 @@ include mixins/links
                       +anchor.logout('/logout')(title='Become anonymous')
                         i.fa.fa-power-off.fa-lg
 
-      .tools
-        block tools
+      if hasFeature('bigToolsButtons')
+        if useShowLayout
+          .bigToolsButtons.container
+            .row
+              .container.col-md-12
+                block tools
+        else
+          .bigToolsButtons.container
+            .row
+              .col-md-offset-1.col-md-10
+                block tools
+      else
+        .tools
+          block tools
 
       .container
         .row

@@ -466,6 +466,18 @@ ul.doc-list > li .message {
   margin: 0;
 }
 
+.bigToolsButtons {
+  padding: 0.3em 0;
+}
+
+.bigToolsButtons .btn {
+  margin-right: 0.5em;
+}
+
+.bigToolsButtons .btn .icon {
+  margin-right: 0.5em;
+}
+
 /* Needed for wideArea */
 .markItUpHeader {
   position: relative;
