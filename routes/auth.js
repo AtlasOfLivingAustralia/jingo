@@ -5,6 +5,7 @@ var router = require("express").Router(),
   passportGoogle = require("passport-google-oauth"),
   passportGithub = require("passport-github").Strategy,
   tools = require("../lib/tools");
+  https = require('https');
 
 var auth = app.locals.config.get("authentication");
 var passport = app.locals.passport;
