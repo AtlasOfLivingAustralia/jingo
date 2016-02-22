@@ -1,5 +1,5 @@
 body {
-  padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+  /*padding-top: 40px;*/ /* 40px to make the container go all the way to the bottom of the topbar */
   font-family: "Roboto,Helvetica,"Helvetica Neue",Arial,sans-serif";
   background-image: url(/img/bodybg.png);
   font-size: 15px;
@@ -756,7 +756,7 @@ a.btn-auth:hover {
 
 @media (min-width: 768px) {
   body {
-    padding-top: 60px;
+    /*padding-top: 60px;*/
   }
 
   p.user {

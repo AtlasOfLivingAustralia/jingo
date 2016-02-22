@@ -20,7 +20,7 @@ include mixins/links
           !{_style}
     body
       -var term_ph = (typeof term == "undefined" ? "" : term)
-      .navbar.navbar-inverse.navbar-fixed-top
+      .navbar.navbar-inverse
         .container-fluid
           .navbar-header
             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
@@ -48,7 +48,7 @@ include mixins/links
                       if user.email
                         img(src=gravatar().url("#{user.email}", {s:24}))
                       b &nbsp;#{user.displayName}&nbsp;&nbsp;
-                      +anchor.logout('/logout')(title='Become anonymous')
+                      +anchor.logout('/logout', title='Become anonymous')
                         i.fa.fa-power-off.fa-lg
 
       if hasFeature('bigToolsButtons')
