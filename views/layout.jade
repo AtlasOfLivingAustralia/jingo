@@ -23,33 +23,33 @@ include mixins/links
       .navbar.navbar-inverse
         .container-fluid
           .navbar-header
-            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#ala-collapse-navbar', aria-expanded='false')
               span.sr-only Toggle navigation
               span.icon-bar
               span.icon-bar
               span.icon-bar
             +anchor("/", appTitle).navbar-brand
-            .collapse.navbar-collapse
-              ul.nav.navbar-nav
-                !{navBar}
+          #ala-collapse-navbar.collapse.navbar-collapse
+            ul.nav.navbar-nav
+              !{navBar}
 
-              if canSearch()
-                form(action="#{proxyPath}/search").navbar-form.search.navbar-right
-                  .input-group.input-group-sm.search
-                    input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
-                    span.input-group-btn
-                      button.btn.btn-primary(type="submit") Search
-                .navbar-right
-                  if isAnonymous()
-                    p.user You're not&nbsp;
-                      +anchor('/login?destination', 'logged in')#login(title='Access login page')
-                  else
-                    p.user
-                      if user.email
-                        img(src=gravatar().url("#{user.email}", {s:24}))
-                      b &nbsp;#{user.displayName}&nbsp;&nbsp;
-                      +anchor.logout('/logout', title='Become anonymous')
-                        i.fa.fa-power-off.fa-lg
+            if canSearch()
+              form(action="#{proxyPath}/search").navbar-form.search.navbar-right
+                .input-group.input-group-sm.search
+                  input.form-control(type="text", value="#{term_ph}", data-i-search-input="true",name="term",placeholder="Search the wiki")
+                  span.input-group-btn
+                    button.btn.btn-primary(type="submit") Search
+              .navbar-right
+                if isAnonymous()
+                  p.user You're not&nbsp;
+                    +anchor('/login?destination', 'logged in')#login(title='Access login page')
+                else
+                  p.user
+                    if user.email
+                      img(src=gravatar().url("#{user.email}", {s:24}))
+                    b &nbsp;#{user.displayName}&nbsp;&nbsp;
+                    +anchor.logout('/logout', title='Become anonymous')
+                      i.fa.fa-power-off.fa-lg
 
       if hasFeature('bigToolsButtons')
         if useShowLayout

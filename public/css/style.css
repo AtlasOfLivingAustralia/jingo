@@ -271,7 +271,7 @@ hr {
 }
 
 .navbar-header {
-  width: 100%;
+  min-width: 12em;
 }
 
 .navbar-brand {
