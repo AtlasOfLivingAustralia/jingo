@@ -283,10 +283,6 @@ hr {
   background-color: rgba(0,0,0);
 }
 
-ul.nav.navbar-nav {
-  height: 50px;
-}
-
 .alert {
   border: 1px solid #E8E2BF;
   border-radius: 0;
